@@ -2,8 +2,13 @@ import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import schema from './schema.js';
 import resolvers from './resolver.js';
+import cors from 'cors';
 
 const app = express();
+
+app.use(cors({
+  origin: "http://localhost:3000"
+}))
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -48,3 +53,41 @@ app.listen(9999, () => {
 //       bookTitle, bookGenre
 //     }
 //   }
+
+// # query with variables
+
+// # query GetBookById($bookId: ID){
+// #   getBook(id: $bookId){
+// #     id, bookTitle, bookGenre, bookCost, bookAuthor, bookImageUrl
+// #   }
+  
+// # }
+
+// # mutation with variables
+
+// mutation CreateNewBook(
+//   $bookTitle: String!, 
+//   $bookAuthor: String, 
+//   $bookGenre: String, 
+//   $bookCost: Int!, 
+//   $bookImageUrl: String){
+    
+//   createBook(input: {
+//     bookTitle: $bookTitle
+//     bookAuthor: $bookAuthor
+//     bookGenre: $bookGenre
+//     bookCost: $bookCost
+//     bookImageUrl: $bookImageUrl
+//   }){
+//     id,bookTitle
+//   }
+// }
+
+// -----
+// {
+//   "bookTitle": "The World of Faries",
+//   "bookAuthor": "Geronimo",
+//   "bookGenre":  "Comedy",
+//   "bookCost":  304,
+//   "bookImageUrl":  ""
+// }
